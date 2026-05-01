@@ -21,4 +21,11 @@ dnf5 install -y tmux
 
 #### Example for enabling a System Unit File
 
+### Disable terra-mesa repo to fix bootc-image-builder ISO generation
+### (packages are already baked into the image, BIB can't read file:// GPG keys)
+if [ -f /etc/yum.repos.d/terra-mesa.repo ]; then
+    sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/terra-mesa.repo
+fi
+
+
 systemctl enable podman.socket
