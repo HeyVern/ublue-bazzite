@@ -12,6 +12,12 @@ set -ouex pipefail
 # this installs a package from fedora repos
 dnf5 install -y tmux 
 
+for repo in /etc/yum.repos.d/terra*.repo; do
+    if [ -f "$repo" ] && grep -q 'gpgkey=file://' "$repo"; then
+        sed -i -e 's/^gpgcheck=1/gpgcheck=0/' -e 's/^repo_gpgcheck=1/repo_gpgcheck=0/' "$repo"
+    fi
+done
+
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
